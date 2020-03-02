@@ -29,6 +29,11 @@ public class ShapeRegistry
 	{
 		return getShapeAt(curShape);
 	}
+
+	public void setActiveShape(int index)
+	{
+		this.curShape = index;
+	}
 	
 	public List<ExcavateShape> getShapeList()
 	{
