@@ -11,11 +11,13 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 import oreexcavation.client.ExcavationKeys;
 import oreexcavation.core.ExcavationSettings;
 import oreexcavation.core.OreExcavation;
+import oreexcavation.events.EventClientExcavationSettings;
 import oreexcavation.handlers.EventHandler;
 import oreexcavation.handlers.MiningScheduler;
 import oreexcavation.shapes.ExcavateShape;
@@ -137,7 +139,9 @@ public class ExcPacketHandler implements BiConsumer<PacketExcavation, Supplier<N
 					message.getTags().putInt("side", ExcavateShape.getFacing(Minecraft.getInstance().player).getIndex());
 				}
 			}
-			
+
+			MinecraftForge.EVENT_BUS.post(new EventClientExcavationSettings(message.getTags()));
+
 			OreExcavation.instance.network.sendToServer(new PacketExcavation(message.getTags()));
     }
 }
