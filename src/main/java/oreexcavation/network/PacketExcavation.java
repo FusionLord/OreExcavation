@@ -14,6 +14,7 @@ import net.minecraft.util.StringUtils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -23,6 +24,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import oreexcavation.client.ExcavationKeys;
 import oreexcavation.core.ExcavationSettings;
 import oreexcavation.core.OreExcavation;
+import oreexcavation.events.EventClientExcavationSettings;
 import oreexcavation.handlers.EventHandler;
 import oreexcavation.handlers.MiningScheduler;
 import oreexcavation.shapes.ExcavateShape;
@@ -161,6 +163,8 @@ public class PacketExcavation implements IMessage
 					message.tags.setInteger("side", ExcavateShape.getFacing(Minecraft.getMinecraft().player).getIndex());
 				}
 			}
+
+			MinecraftForge.EVENT_BUS.post(new EventClientExcavationSettings(message.tags));
 			
 			return new PacketExcavation(message.tags);
 		}
